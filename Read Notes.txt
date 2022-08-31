@@ -1,0 +1,7 @@
+DATABASE DETAILS: 
+
+Name of Database: vaccineproject
+Table Name: register_vacc
+Attributes: name,age,address,phone,dose_count,vaccine_type,dov 
+
+NOTE: Change username and password in ConnectionProvider when you use. 

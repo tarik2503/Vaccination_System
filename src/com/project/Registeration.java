@@ -11,13 +11,15 @@ public class Registeration {
         try {
             long millis = System.currentTimeMillis();
             java.sql.Date date = new java.sql.Date(millis);
+
             BufferedReader sc = new BufferedReader(new InputStreamReader(System.in));
 
-            //connection to Database
+            //connecting to Database
             Connection con = ConnectionProvider.getConnection();
             String query1 = "insert into register_vacc(name,age,address,phone,dose_count,vaccine_type,dov) values (?,?,?,?,?,?,?)";
             PreparedStatement pstmt1 = con.prepareStatement(query1);
 
+            //taking data from user
             System.out.print("Enter your Name:");
             String name = sc.readLine();
 
@@ -26,7 +28,7 @@ public class Registeration {
             while (true) {
 
                 age = Integer.parseInt(sc.readLine());
-
+                // age edge case
                 if (age > 0 && age < 101) {
                     break;
                 } else {
@@ -43,10 +45,10 @@ public class Registeration {
             while (true) {
                 phone = sc.readLine();
                 String rege = "\\d{10}";
-                // Matching the given phone number with regular expression
+                // Matching the given phone number with regular expression and verifying the validity of entered number
                 boolean result = phone.matches(rege);
                 if (result) {
-                    System.out.print("Enter your Vaccine Type from A,B or C: ");
+                    System.out.print("Enter your Vaccine Type from A,B or C: ");  // 3 types of vaccine
                     VaccineType = sc.readLine();
                     Main.DoseCount++;
                     System.out.println("Congrats! You successfully registered");

@@ -6,15 +6,18 @@ import java.util.Scanner;
 public class SearchingDetails {
 
     public static void search() throws SQLException {
+
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
+
         Scanner input = new Scanner(System.in);
+
         Connection con = ConnectionProvider.getConnection();
         String query2 = "select * from register_vacc WHERE phone=" + Main.phone;
         PreparedStatement pstmt2 = con.prepareStatement(query2);
-
         ResultSet set = pstmt2.executeQuery(query2);
 
+        //fetching data for searched mobile number from database
         set.next();
         String name = set.getString(1);
         int age = set.getInt(2);
@@ -32,13 +35,14 @@ public class SearchingDetails {
             char NextDose = input.next().charAt(0);
 
             if (NextDose == 'Y' || NextDose == 'y') {
+                // Maximum 4 doses are allowed for one particular registered person
                 if (dose_count == 4) {
                     System.out.println("\nSORRY! You have already completed your doses");
                     break;
                 }
-
+                // person is allowed for another dose if and only if he would not done with all his/her 4 doses
                 dose_count++;
-                // Query for Data updation in Database
+                // Query for Data updation in Database after another dose
                 String query3 = "update register_vacc set dose_count=?,dov=? where phone=?";
                 PreparedStatement pstmt3 = con.prepareStatement(query3);
                 pstmt3.setInt(1, dose_count);
@@ -52,7 +56,7 @@ public class SearchingDetails {
                 System.out.print("Please...Enter the valid input:");
             }
         }
-              // Vaccine_Details
+        // Vaccine_Details
         System.out.println("\nVaccination Details:");
         System.out.println("Registered Mobile Number: " + Main.phone);
         System.out.println("Name : " + name);
